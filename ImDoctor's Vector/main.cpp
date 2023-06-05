@@ -110,7 +110,25 @@ namespace DocVector {
 			return !isEqual(first, second);
 		}
 
-		void showAll() {
+		//overloaded << to show all vector (equals show_all)
+		friend std::ostream& operator<<(std::ostream& os, const vector& vec) {
+			for (size_t i = 0; i < vec.size; i++)
+				os << vec.data[i] << " ";
+
+			return os;
+		}
+
+		//overloaded >> to set an element to the end of the vector (push_back)
+		friend std::istream& operator>>(std::istream& is, vector& vec) {
+
+			tp value;
+			is >> value;
+	
+			vec.push_back(value);
+			return is;
+		}
+
+		void show_all() {
 			for (size_t i = 0; i < size; i++)
 				std::cout << data[i] << " ";
 			std::cout << std::endl;
@@ -120,11 +138,6 @@ namespace DocVector {
 		void push_back(tp element) {
 			resize(size + 1);
 			data[size - 1] = element;
-		}
-
-		//remove an element from the end of array by array's resizing
-		void pop_back() {
-			resize(size - 1);
 		}
 
 		//push one element to any place
@@ -162,6 +175,60 @@ namespace DocVector {
 					data[i] = arr[elementsPushed++];
 				else data[i] = temp.data[i - N];
 			}
+		}
+
+		//remove an element from the end of array by array's resizing
+		void pop_back() {
+			resize(size - 1);
+		}
+
+		//remove an element from any place
+		void deleteAt(size_t position) {
+			
+			size_t targetPos = position - 1;
+			if (targetPos >= size) {
+				std::cerr << "Error. Delete position is out of bounds." << std::endl;
+				return;
+			}
+
+			vector temp = *this;
+
+			delete[] data;
+			data = new tp[size - 1];
+
+			for (size_t i = 0; i < targetPos; i++)
+				data[i] = temp.data[i];
+
+			for (size_t i = targetPos + 1; i < size; i++)
+				data[i - 1] = temp.data[i];
+
+			size--;
+		}
+
+		// ??? delete an array of elements from the start position to the end position (not indeces in function's args)
+		void deleteUntil(size_t start, size_t end) {
+			size_t startIndex = start - 1;
+			size_t endIndex = end - 1;
+			
+			//Start must be from an element previous to the last, and the end 
+			if (startIndex > size - 2 || endIndex >= size) {
+				std::cerr << "Error. Positions is incorrect. Try to decrease start or end position." << std::endl;
+				return;
+			}
+
+			size_t deleteSize = endIndex - startIndex + 1;
+			vector temp = *this;
+			
+			delete[] data;
+			data = new tp[size - deleteSize];
+
+			for (size_t i = 0; i < startIndex; i++)
+				data[i] = temp.data[i];
+
+			for (size_t i = endIndex + 1; i < size; i++)
+				data[i - deleteSize] = temp.data[i];
+			
+			size -= deleteSize;
 		}
 
 		//get size
@@ -222,48 +289,59 @@ namespace DocVector {
 	};
 }
 
-template<typename ab>
-void Test(DocVector::vector<ab>& v) {
-	v.showAll();
-	std::cout << v.getSize() << std::endl;
-}
-
-int main() {
+void PreviousTest() {
 	int a[] = { 1, 2, 4 };
 	DocVector::vector<int> _vec(5, 0);
 	_vec = a;
-	_vec.showAll();
+	_vec.show_all();
 
 	DocVector::vector<float> first(3);
 	float first_values[] = { 12.5, 13.0, 14.0 };
 	first = first_values;
-	first.showAll();
+	first.show_all();
 
 	DocVector::vector<float> second(3);
 	float second_values[] = { 0, 5.2, 8.0 };
 	second = second_values;
-	second.showAll();
+	second.show_all();
 
 	DocVector::vector<float> summary(3, 0);
 	DocVector::vector<float> sum;
 	summary = first + second;
-	summary.showAll();
+	summary.show_all();
 
 	summary.push_back(3.2);
 	sum = summary + second;
-	sum.showAll();
+	sum.show_all();
 	sum.push_at(3, 12.5);
-	sum.showAll();
+	sum.show_all();
 
 	float abab[] = { 0, 3, 0 };
 	sum.push_at(4, abab);
-	sum.showAll();
+	sum.show_all();
 
-	
+
 	first = summary;
 	std::cout << (first == summary) << std::endl;
 	std::cout << (first == second) << std::endl;
 	std::cout << (first != second) << std::endl;
+}
+
+int main() {
 	
+	PreviousTest();
+
+	int a[] = { 1, 2, 4 };
+	DocVector::vector<int> _vec(5, 2);
+	_vec = a;
+	_vec.show_all();
+
+	_vec.deleteAt(3);
+	_vec.show_all();
+
+	_vec.deleteUntil(1, 3);
+	std::cout << _vec << std::endl;
+	std::cout << _vec.getSize() << std::endl;
+
 	return 0;
 }
