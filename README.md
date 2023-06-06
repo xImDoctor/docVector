@@ -11,10 +11,10 @@ What is implemented:
   
 UPD (06.06.23):
 1. Added opportunity to remove element not only from the end of the vector, but from any place using deleteAt(position) where it is position of the element (not index).
-2. Also added an opportunity to delete an array of elements using deleteUntil(start, end) to delete all elements from the start place to and place (start, end are the same as position in 8).
+2. Also added an opportunity to delete an array of elements using deleteUntil(start, end) to delete all elements from the start place to and place (start, end are the same as position in deleteAt()).
 3. Overloaded operators << and >>:
-3.1. operator << works closely like show_all() and can be used to show whole vector;
-3.2. operator >> works as push_back() and can be used to set an element to the end of vector as well (it means that vector will be resized).
+3.1) operator << works closely like show_all() and can be used to show whole vector;
+3.2) operator >> works as push_back() and can be used to set an element to the end of vector as well (it means that vector will be resized).
 
 Previous code samples how features work are moved to PreviousTest() function and new ones are partly added to the main().
   
