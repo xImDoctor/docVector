@@ -279,8 +279,9 @@ namespace DocVector {
 
 		//function to check equality
 		friend bool isEqual(const vector& v1, const vector& v2) {
-			if (v1.size == v2.size)
-				for (size_t i = 0; i < v1.size; i++)
+			if (v1.size != v2.size)
+				return false;
+			else for (size_t i = 0; i < v1.size; i++)
 					if (v1.data[i] != v2.data[i])
 						return false;
 			return true;
