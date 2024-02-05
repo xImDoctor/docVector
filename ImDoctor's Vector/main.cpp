@@ -1,6 +1,6 @@
 #include <iostream>
 
-namespace DocVector {
+namespace dv {
 	template<typename tp>
 	class vector {
 		tp* data;
@@ -292,22 +292,22 @@ namespace DocVector {
 
 void PreviousTest() {
 	int a[] = { 1, 2, 4 };
-	DocVector::vector<int> _vec(5, 0);
+	dv::vector<int> _vec(5, 0);
 	_vec = a;
 	_vec.show_all();
 
-	DocVector::vector<float> first(3);
+	dv::vector<float> first(3);
 	float first_values[] = { 12.5, 13.0, 14.0 };
 	first = first_values;
 	first.show_all();
 
-	DocVector::vector<float> second(3);
+	dv::vector<float> second(3);
 	float second_values[] = { 0, 5.2, 8.0 };
 	second = second_values;
 	second.show_all();
 
-	DocVector::vector<float> summary(3, 0);
-	DocVector::vector<float> sum;
+	dv::vector<float> summary(3, 0);
+	dv::vector<float> sum;
 	summary = first + second;
 	summary.show_all();
 
@@ -333,7 +333,7 @@ int main() {
 	PreviousTest();
 
 	int a[] = { 1, 2, 4 };
-	DocVector::vector<int> _vec(5, 2);
+	dv::vector<int> _vec(5, 2);
 	_vec = a;
 	_vec.show_all();
 
