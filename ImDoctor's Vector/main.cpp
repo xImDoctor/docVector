@@ -7,15 +7,12 @@ namespace dv {
 		size_t size;
 
 	public:
+
 		//Default constructor
-		vector() {
-			data = NULL;
-			size = 0;
-		}
+		vector() : data(nullptr), size(0) {}
 
 		//Constructor to fill size with written value
-		vector(size_t _size, tp value) {
-			size = _size;
+		explicit vector(size_t _size, tp value) : size(_size) {
 			data = new tp[size];
 
 			for (size_t i = 0; i < size; i++)
@@ -23,8 +20,7 @@ namespace dv {
 		}
 
 		//Constructor to fill size with nulls 
-		vector(size_t _size) {
-			size = _size;
+		explicit vector(size_t _size) : size(_size) {
 			data = new tp[size];
 
 			for (size_t i = 0; i < size; i++)
@@ -32,7 +28,7 @@ namespace dv {
 		}
 
 		//Copy constructor
-		vector(const vector& other) {
+		vector(const vector& other) : data(nullptr), size(0) { //explicit do not match
 			makeCopy(other);
 		}
 
@@ -131,7 +127,7 @@ namespace dv {
 		void show_all() {
 			for (size_t i = 0; i < size; i++)
 				std::cout << data[i] << " ";
-			std::cout << std::endl;
+			std::cout << '\n';
 		}
 
 		//set an element to the end of array by array's resizing
@@ -187,7 +183,7 @@ namespace dv {
 			
 			size_t targetPos = position - 1;
 			if (targetPos >= size) {
-				std::cerr << "Error. Delete position is out of bounds." << std::endl;
+				std::cerr << "Error. Delete position is out of bounds\n";
 				return;
 			}
 
@@ -202,17 +198,17 @@ namespace dv {
 			for (size_t i = targetPos + 1; i < size; i++)
 				data[i - 1] = temp.data[i];
 
-			size--;
+			--size;
 		}
 
-		// ??? delete an array of elements from the start position to the end position (not indeces in function's args)
+		// delete an array of elements from the start position to the end position (not indeces in function args)
 		void deleteUntil(size_t start, size_t end) {
 			size_t startIndex = start - 1;
 			size_t endIndex = end - 1;
 			
 			//Start must be from an element previous to the last, and the end 
 			if (startIndex > size - 2 || endIndex >= size) {
-				std::cerr << "Error. Positions is incorrect. Try to decrease start or end position." << std::endl;
+				std::cerr << "Error. Positions is incorrect. Try to decrease start or end position\n";
 				return;
 			}
 
@@ -248,7 +244,7 @@ namespace dv {
 		//for []
 		tp& indexFind(int index) {
 			if (index < 0 || index >(size - 1)) {
-				std::cerr << "Index is outside of bounds. Returned index 0." << std::endl;
+				std::cerr << "Index is outside of bounds. Returned index 0\n";
 				return data[0];
 			}
 			return data[index];
@@ -330,7 +326,7 @@ void PreviousTest() {
 
 int main() {
 	
-	PreviousTest();
+	//PreviousTest();
 
 	int a[] = { 1, 2, 4 };
 	dv::vector<int> _vec(5, 2);
