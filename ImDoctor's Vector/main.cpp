@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept> //for exceptions
 
 namespace dv {
 	template<typename tp>
@@ -182,11 +183,11 @@ namespace dv {
 		void deleteAt(size_t position) {
 			
 			size_t targetPos = position - 1;
-			if (targetPos >= size) {
-				std::cerr << "Error. Delete position is out of bounds\n";
-				return;
-			}
-
+			if (targetPos >= size)
+				throw std::out_of_range("Error. Delete position is out of bounds");
+				//std::cerr << "Error. Delete position is out of bounds\n";
+				//return;
+			
 			vector temp = *this;
 
 			delete[] data;
@@ -207,10 +208,11 @@ namespace dv {
 			size_t endIndex = end - 1;
 			
 			//Start must be from an element previous to the last, and the end 
-			if (startIndex > size - 2 || endIndex >= size) {
-				std::cerr << "Error. Positions is incorrect. Try to decrease start or end position\n";
-				return;
-			}
+			if (startIndex > size - 2 || endIndex >= size)
+				throw std::out_of_range("Error. Positions are incorrect. Try to decrease start or end position");
+				//std::cerr << "Error. Positions are incorrect. Try to decrease start or end position\n";
+				//return;
+			
 
 			size_t deleteSize = endIndex - startIndex + 1;
 			vector temp = *this;
@@ -286,7 +288,7 @@ namespace dv {
 	};
 }
 
-void PreviousTest() {
+void demo1() {
 	int a[] = { 1, 2, 4 };
 	dv::vector<int> _vec(5, 0);
 	_vec = a;
@@ -324,9 +326,7 @@ void PreviousTest() {
 	std::cout << (first != second) << std::endl;
 }
 
-int main() {
-	
-	//PreviousTest();
+void demo2() {
 
 	int a[] = { 1, 2, 4 };
 	dv::vector<int> _vec(5, 2);
@@ -339,6 +339,37 @@ int main() {
 	_vec.deleteUntil(1, 3);
 	std::cout << _vec << std::endl;
 	std::cout << _vec.getSize() << std::endl;
+
+}
+
+
+// try-catch blocks to handle exceptions
+void trycatchOfException() {
+
+	dv::vector<int> _vec(5, 3);
+	_vec.show_all();
+
+	try {
+		_vec.deleteAt(5); //replace 5 to 6 or higher to cause exception
+		_vec.show_all();
+
+		_vec.deleteUntil(3, 5); //cause an exception
+		std::cout << _vec << std::endl;
+		std::cout << _vec.getSize() << std::endl;
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Exception: " << e.what() << std::endl;
+	}
+
+}
+
+int main() {
+	
+	//uncomment to check how this code works
+	//demo1();
+	//demo2();
+
+	trycatchOfException();
 
 	return 0;
 }
